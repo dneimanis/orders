@@ -1,6 +1,7 @@
 package io.codelex.orders;
 
 import io.codelex.orders.api.AddPrivateCustomer;
+import io.codelex.orders.api.InquirePrivateCustomer;
 import io.codelex.orders.api.IssuePrivateCard;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class PrivateCustomerController {
     }
 
     @GetMapping
-    void inqiure(@PathVariable String id) {
-        service.inqiure(id);
+    void inqiure(@PathVariable String id, @Valid @RequestBody InquirePrivateCustomer inquirePrivateCustomer) {
+        service.inquire(id, inquirePrivateCustomer);
     }
 }

@@ -6,7 +6,7 @@ public class DocumentValidationService {
         return ValidationResult.VALID;
     }
 
-    public ValidationResult validatePlaceOfRegistration() {
+    public ValidationResult validatePlaceOfRegistration(String placeOfRegistration) {
         return ValidationResult.VALID;
     }
 

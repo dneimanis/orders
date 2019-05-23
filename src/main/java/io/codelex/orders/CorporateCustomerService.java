@@ -1,8 +1,11 @@
 package io.codelex.orders;
 
 import io.codelex.orders.api.AddCorporateCustomer;
+import io.codelex.orders.api.InquireCorporateCustomer;
 import io.codelex.orders.api.IssueCorporateCard;
 import org.springframework.stereotype.Component;
+
+import static io.codelex.orders.ValidationResult.VALID;
 
 @Component
 class CorporateCustomerService {
@@ -23,16 +26,34 @@ class CorporateCustomerService {
         
         corporateCustomerRepository.save(corporateCustomer);
         
-        System.out.println(addCorporateCustomer.getExtractFromRegister());
+        System.out.println("Corporate client registered");
     }
 
     void issueCard(String id, IssueCorporateCard issueCorporateCard) {
+        
         DocumentValidationService documentValidationService = new DocumentValidationService();
-        documentValidationService.validateIdCard(issueCorporateCard.getIdCard());
-        documentValidationService.validateExtractFromRegister(issueCorporateCard.getExtractFromRegister());
+        
+        ValidationResult validateId = documentValidationService.validateIdCard(issueCorporateCard.getIdCard());
+        ValidationResult validateExtract = documentValidationService.validateExtractFromRegister(issueCorporateCard.getExtractFromRegister());
+
+        if(validateId == VALID && validateExtract == VALID) {
+            System.out.println("Corporate customer card issued");
+        } else {
+            System.out.println("Documents not valid");
+        }
     }
 
-    void inquire(String id) {
-        System.out.println(id);
+    void inquire(String id, InquireCorporateCustomer inquireCorporateCustomer) {
+        
+        DocumentValidationService documentValidationService = new DocumentValidationService();
+        
+        ValidationResult validateExtract = documentValidationService.validateExtractFromRegister(inquireCorporateCustomer.getExtractFromRegister());
+        ValidationResult validatePlace = documentValidationService.validatePlaceOfRegistration(inquireCorporateCustomer.getPlaceOfRegistration());
+        
+        if(validateExtract == VALID && validatePlace == VALID) {
+            System.out.println("Info on customer");
+        } else {
+            System.out.println("Documents not valid");
+        }
     }
 }

@@ -10,8 +10,6 @@ public class CorporateCustomer {
     private String id;
     private String idCard;
     private String extractFromRegister;
-    private ValidationResult idCardValidationStatus;
-    private ValidationResult extractFromRegisterValidationStatus;
 
     public CorporateCustomer(String id, String idCard, String extractFromRegister) {
         this.id = id;

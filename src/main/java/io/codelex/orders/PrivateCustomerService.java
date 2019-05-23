@@ -1,8 +1,11 @@
 package io.codelex.orders;
 
 import io.codelex.orders.api.AddPrivateCustomer;
+import io.codelex.orders.api.InquirePrivateCustomer;
 import io.codelex.orders.api.IssuePrivateCard;
 import org.springframework.stereotype.Component;
+
+import static io.codelex.orders.ValidationResult.VALID;
 
 @Component
 class PrivateCustomerService {
@@ -22,15 +25,33 @@ class PrivateCustomerService {
         
         privateCustomerRepository.save(privateCustomer);
         
-        System.out.println(addPrivateCustomer.getIdCard());
+        System.out.println("Private customer registered");
     }
 
     void issueCard(String id, IssuePrivateCard issuePrivateCard) {
+        
         DocumentValidationService documentValidationService = new DocumentValidationService();
-        documentValidationService.validateIdCard(issuePrivateCard.getIdCard());
+        
+        ValidationResult validateId = documentValidationService.validateIdCard(issuePrivateCard.getIdCard());
+        
+        if(validateId == VALID) {
+            System.out.println("Private customer card issued");
+        } else {
+            System.out.println("Document not valid");
+        }
     }
 
-    void inqiure(String id) {
-        System.out.println(id);
+    void inquire(String id, InquirePrivateCustomer inquirePrivateCustomer) {
+        
+        DocumentValidationService documentValidationService = new DocumentValidationService();
+        
+        ValidationResult validateId = documentValidationService.validateIdCard(inquirePrivateCustomer.getIdCard());
+        ValidationResult validatePlace = documentValidationService.validatePlaceOfRegistration(inquirePrivateCustomer.getPlaceOfRegistration());
+        
+        if(validateId == VALID && validatePlace == VALID) {
+            System.out.println("Info on customer");
+        } else {
+            System.out.println("Documents not valid");
+        }
     }
 }

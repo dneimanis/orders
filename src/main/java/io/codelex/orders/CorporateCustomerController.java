@@ -1,6 +1,7 @@
 package io.codelex.orders;
 
 import io.codelex.orders.api.AddCorporateCustomer;
+import io.codelex.orders.api.InquireCorporateCustomer;
 import io.codelex.orders.api.IssueCorporateCard;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class CorporateCustomerController {
     }
 
     @GetMapping
-    void inqiure(@PathVariable String id) {
-        service.inquire(id);
+    void inqiure(@PathVariable String id, @Valid @RequestBody InquireCorporateCustomer inquireCorporateCustomer) {
+        service.inquire(id, inquireCorporateCustomer);
     }
 }
