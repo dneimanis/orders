@@ -1,10 +1,13 @@
 package io.codelex.orders;
 
+
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class PrivateCustomer {
 
+    @Id
     private String id;
     private String idCard;
     private String placeOfRegistration;
