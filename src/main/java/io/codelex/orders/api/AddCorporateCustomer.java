@@ -13,11 +13,16 @@ public class AddCorporateCustomer {
     @NotEmpty
     private String extractFromRegister;
 
+    @NotEmpty
+    private String placeOfRegistration;
+
     @JsonCreator
     public AddCorporateCustomer(@JsonProperty("idCard") String idCard,
-                                @JsonProperty("extractFromRegister") String extractFromRegister) {
+                                @JsonProperty("extractFromRegister") String extractFromRegister,
+                                @JsonProperty("placeOfRegistration") String placeOfRegistration) {
         this.extractFromRegister = extractFromRegister;
         this.idCard = idCard;
+        this.placeOfRegistration = placeOfRegistration;
     }
 
     public String getExtractFromRegister() {
@@ -26,5 +31,9 @@ public class AddCorporateCustomer {
 
     public String getIdCard() {
         return idCard;
+    }
+
+    public String getPlaceOfRegistration() {
+        return placeOfRegistration;
     }
 }

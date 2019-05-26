@@ -23,8 +23,8 @@ public class CorporateCustomerController {
     }
 
     @PostMapping("/issue-card")
-    void issueCard(@PathVariable String id, @Valid @RequestBody IssueCorporateCard issueCorporateCard) {
-        service.issueCard(id, issueCorporateCard);
+    void issueCard(@PathVariable String id, @Valid @RequestBody IssueCorporateCard issueCorporateCard, CorporateCustomer corporateCustomer) {
+        service.issueCard(id, issueCorporateCard, corporateCustomer);
     }
 
     @GetMapping

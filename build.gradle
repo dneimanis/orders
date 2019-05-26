@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.h2database:h2:1.4.199'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
