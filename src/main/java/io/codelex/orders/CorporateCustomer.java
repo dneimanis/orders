@@ -1,76 +1,73 @@
 package io.codelex.orders;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.time.LocalDate;
 
-@Entity
-public class CorporateCustomer {
+class CorporateCustomer {
 
-    @Id
     private String id;
     private String idCard;
     private String extractFromRegister;
     private String placeOfRegistration;
     private String trustworthiness;
-    private String isCardIssued = "No";
+    private LocalDate cardIssued;
 
-    public CorporateCustomer(String id, String idCard, String extractFromRegister, String placeOfRegistration, String trustworthiness, String isCardIssued) {
+    CorporateCustomer(String id, String idCard, String extractFromRegister, String placeOfRegistration, String trustworthiness, LocalDate cardIssued) {
         this.id = id;
         this.idCard = idCard;
         this.extractFromRegister = extractFromRegister;
         this.placeOfRegistration = placeOfRegistration;
         this.trustworthiness = trustworthiness;
-        this.isCardIssued = isCardIssued;
+        this.cardIssued = cardIssued;
     }
 
-    CorporateCustomer() {
+    public CorporateCustomer() {
     }
 
-    void setId(String id) {
-        this.id = id;
-    }
-
-    void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    void setExtractFromRegister(String extractFromRegister) {
-        this.extractFromRegister = extractFromRegister;
-    }
-
-    void setPlaceOfRegistration(String placeOfRegistration) {
-        this.placeOfRegistration = placeOfRegistration;
-    }
-
-    void setTrustworthiness(String trustworthiness) {
-        this.trustworthiness = trustworthiness;
-    }
-
-    void setIsCardIssued(String isCardIssued) {
-        this.isCardIssued = isCardIssued;
-    }
-
-    public String getId(String id) {
-        return id;
-    }
-
-    public String getIdCard(String id) {
+    public String getIdCard() {
         return idCard;
     }
 
-    public String getExtractFromRegister(String id) {
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getExtractFromRegister() {
         return extractFromRegister;
     }
 
-    public String getPlaceOfRegistration(String id) {
+    public void setExtractFromRegister(String extractFromRegister) {
+        this.extractFromRegister = extractFromRegister;
+    }
+
+    public String getPlaceOfRegistration() {
         return placeOfRegistration;
     }
 
-    String getTrustworthiness() {
+    public void setPlaceOfRegistration(String placeOfRegistration) {
+        this.placeOfRegistration = placeOfRegistration;
+    }
+
+    public String getTrustworthiness() {
         return trustworthiness;
     }
 
-    public String getIsCardIssuaed(String id) {
-        return isCardIssued;
+    public void setTrustworthiness(String trustworthiness) {
+        this.trustworthiness = trustworthiness;
+    }
+
+    public LocalDate getCardIssued() {
+        return cardIssued;
+    }
+
+    public void setCardIssued(LocalDate cardIssued) {
+        this.cardIssued = cardIssued;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

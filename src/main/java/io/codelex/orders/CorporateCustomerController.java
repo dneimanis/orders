@@ -6,8 +6,9 @@ import io.codelex.orders.api.IssueCorporateCard;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
-@RequestMapping("/api/corporate-customer/{id}")
+@RequestMapping("/api/corporate-customers/{id}")
 @RestController
 public class CorporateCustomerController {
     
@@ -21,14 +22,14 @@ public class CorporateCustomerController {
     void register(@PathVariable String id, @Valid @RequestBody AddCorporateCustomer addCorporateCustomer) {
         service.register(id, addCorporateCustomer);
     }
-
+    
     @PostMapping("/issue-card")
-    void issueCard(@PathVariable String id, @Valid @RequestBody IssueCorporateCard issueCorporateCard, CorporateCustomer corporateCustomer) {
-        service.issueCard(id, issueCorporateCard, corporateCustomer);
+    void issueCard(@PathVariable String id, @Valid @RequestBody IssueCorporateCard issueCorporateCard, CorporateCustomerRecord corporateCustomerRecord) {
+        service.issueCard(id, issueCorporateCard);
     }
 
     @GetMapping
-    void inqiure(@PathVariable String id, @Valid @RequestBody InquireCorporateCustomer inquireCorporateCustomer) {
-        service.inquire(id, inquireCorporateCustomer);
+    List<CorporateCustomer> inqiure(@Valid @RequestBody InquireCorporateCustomer inquireCorporateCustomer) {
+        return service.inquire(inquireCorporateCustomer);
     }
 }

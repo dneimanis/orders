@@ -6,6 +6,7 @@ import io.codelex.orders.api.IssuePrivateCard;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping("/api/private-customers/{id}")
 @RestController
@@ -30,7 +31,7 @@ public class PrivateCustomerController {
     }
 
     @GetMapping
-    void inqiure(@PathVariable String id, @Valid @RequestBody InquirePrivateCustomer inquirePrivateCustomer) {
-        service.inquire(id, inquirePrivateCustomer);
+    List<PrivateCustomer> inqiure(@Valid @RequestBody InquirePrivateCustomer inquirePrivateCustomer) {
+        return service.inquire(inquirePrivateCustomer);
     }
 }

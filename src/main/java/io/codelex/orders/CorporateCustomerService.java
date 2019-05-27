@@ -5,7 +5,10 @@ import io.codelex.orders.api.InquireCorporateCustomer;
 import io.codelex.orders.api.IssueCorporateCard;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.codelex.orders.ValidationResult.VALID;
 
@@ -13,61 +16,78 @@ import static io.codelex.orders.ValidationResult.VALID;
 class CorporateCustomerService {
 
     private final CorporateCustomerRepository corporateCustomerRepository;
-    private DocumentValidationService documentValidationService = new DocumentValidationService();
+    private final DocumentValidationService documentValidationService;
 
-    CorporateCustomerService(CorporateCustomerRepository corporateCustomerRepository) {
+    CorporateCustomerService(CorporateCustomerRepository corporateCustomerRepository, DocumentValidationService documentValidationService) {
         this.corporateCustomerRepository = corporateCustomerRepository;
+        this.documentValidationService = documentValidationService;
     }
 
     void register(String id, AddCorporateCustomer addCorporateCustomer) {
 
-        CorporateCustomer corporateCustomer = new CorporateCustomer();
-        corporateCustomer.setId(id);
-        corporateCustomer.setIdCard(addCorporateCustomer.getIdCard());
-        corporateCustomer.setExtractFromRegister(addCorporateCustomer.getExtractFromRegister());
-        corporateCustomer.setPlaceOfRegistration(addCorporateCustomer.getPlaceOfRegistration());
-        corporateCustomer.setTrustworthiness("Not trustworthy");
+        CorporateCustomerRecord corporateCustomerRecord = new CorporateCustomerRecord();
+        corporateCustomerRecord.setId(id);
+        corporateCustomerRecord.setIdCard(addCorporateCustomer.getIdCard());
+        corporateCustomerRecord.setExtractFromRegister(addCorporateCustomer.getExtractFromRegister());
+        corporateCustomerRecord.setPlaceOfRegistration(addCorporateCustomer.getPlaceOfRegistration());
+        corporateCustomerRecord.setTrustworthiness("Not trustworthy");
 
         ValidationResult validateExtract = documentValidationService.validateExtractFromRegister(addCorporateCustomer.getExtractFromRegister());
 
-        if (corporateCustomer.getTrustworthiness().equals("Not trustworthy") && validateExtract == VALID) {
-            corporateCustomerRepository.save(corporateCustomer);
+        if (corporateCustomerRecord.getTrustworthiness().equals("Not trustworthy") && validateExtract == VALID) {
+            corporateCustomerRepository.save(corporateCustomerRecord);
             System.out.println("Corporate client registered");
-        } else if (corporateCustomer.getTrustworthiness().equals("Trustworthy")) {
-            corporateCustomerRepository.save(corporateCustomer);
+        } else if (corporateCustomerRecord.getTrustworthiness().equals("Trustworthy")) {
+            corporateCustomerRepository.save(corporateCustomerRecord);
             System.out.println("Corporate client registered");
         } else {
             System.out.println("Document not valid");
         }
     }
 
-    void issueCard(String id, IssueCorporateCard issueCorporateCard) {
+    @Transactional
+    public void issueCard(String id, IssueCorporateCard issueCorporateCard) {
 
-        CorporateCustomer corporateCustomer = corporateCustomerRepository.findById(id);
+        CorporateCustomerRecord corporateCustomerRecord = corporateCustomerRepository.getOne(id);
 
         ValidationResult validateId = documentValidationService.validateIdCard(issueCorporateCard.getIdCard());
         ValidationResult validateExtract = documentValidationService.validateExtractFromRegister(issueCorporateCard.getExtractFromRegister());
 
-        if (corporateCustomer.getTrustworthiness().equals("Not trustworthy") && validateId == VALID && validateExtract == VALID) {
-            corporateCustomer.setIsCardIssued(LocalDate.now().toString());
+        if (corporateCustomerRecord.getTrustworthiness().equals("Not trustworthy") && validateId == VALID && validateExtract == VALID) {
+            corporateCustomerRecord.setCardIssued(LocalDate.now());
             System.out.println("Corporate customer card issued");
-        } else if(corporateCustomer.getTrustworthiness().equals("Trustworthy")){
-            corporateCustomer.setIsCardIssued(LocalDate.now().toString());
+        } else if(corporateCustomerRecord.getTrustworthiness().equals("Trustworthy")){
+            corporateCustomerRecord.setCardIssued(LocalDate.now());
             System.out.println("Corporate customer card issued");
         } else {
             System.out.println("Documents not valid");
         }
     }
 
-    void inquire(String id, InquireCorporateCustomer inquireCorporateCustomer) {
+    List<CorporateCustomer> inquire(InquireCorporateCustomer inquireCorporateCustomer) {
 
         ValidationResult validateExtract = documentValidationService.validateExtractFromRegister(inquireCorporateCustomer.getExtractFromRegister());
         ValidationResult validatePlace = documentValidationService.validatePlaceOfRegistration(inquireCorporateCustomer.getPlaceOfRegistration());
 
         if (validateExtract == VALID && validatePlace == VALID) {
-            System.out.println("Info on customer");
+            System.out.println("Information on corporate customer delivered");
+            return corporateCustomerRepository.findAll()
+                    .stream()
+                    .map(this::customer)
+                    .collect(Collectors.toList());
         } else {
             System.out.println("Documents not valid");
         }
+        return null;
+    }
+    
+    private CorporateCustomer customer(CorporateCustomerRecord corporateCustomerRecord) {
+        return new CorporateCustomer(
+                corporateCustomerRecord.getId(),
+                corporateCustomerRecord.getIdCard(),
+                corporateCustomerRecord.getExtractFromRegister(),
+                corporateCustomerRecord.getPlaceOfRegistration(),
+                corporateCustomerRecord.getTrustworthiness(),
+                corporateCustomerRecord.getCardIssued());
     }
 }

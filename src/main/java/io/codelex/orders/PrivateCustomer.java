@@ -1,36 +1,63 @@
 package io.codelex.orders;
 
+import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class PrivateCustomer {
-
-    @Id
+    
     private String id;
     private String idCard;
     private String placeOfRegistration;
-    private ValidationResult idCardValidationStatus;
-    private ValidationResult getPlaceOfRegistrationValidationStatus;
-    public PrivateCustomer(String id, String idCard, String placeOfRegistration) {
+    private String trustworthiness;
+    private LocalDate cardIssued;
+
+    public PrivateCustomer(String id, String idCard, String placeOfRegistration, String trustworthiness, LocalDate cardIssued) {
         this.id = id;
         this.idCard = idCard;
         this.placeOfRegistration = placeOfRegistration;
+        this.trustworthiness = trustworthiness;
+        this.cardIssued = cardIssued;
     }
 
-    PrivateCustomer() {
+    public PrivateCustomer() {
     }
 
-    void setId(String id) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
-    void setIdCard(String idCard) {
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
         this.idCard = idCard;
     }
 
-    void setPlaceOfRegistration(String placeOfRegistration) {
+    public String getPlaceOfRegistration() {
+        return placeOfRegistration;
+    }
+
+    public void setPlaceOfRegistration(String placeOfRegistration) {
         this.placeOfRegistration = placeOfRegistration;
+    }
+
+    public String getTrustworthiness() {
+        return trustworthiness;
+    }
+
+    public void setTrustworthiness(String trustworthiness) {
+        this.trustworthiness = trustworthiness;
+    }
+
+    public LocalDate getCardIssued() {
+        return cardIssued;
+    }
+
+    public void setCardIssued(LocalDate cardIssued) {
+        this.cardIssued = cardIssued;
     }
 }

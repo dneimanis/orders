@@ -1,5 +1,8 @@
 package io.codelex.orders;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class DocumentValidationService {
 
     public ValidationResult validateIdCard(String idCard) {
