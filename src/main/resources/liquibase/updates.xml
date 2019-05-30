@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="create corporate_customers table" author="davis">
+        <createTable tableName="corporate_customers">
+            <column name="id" type="varchar(255)">
+                <constraints
+                        primaryKey="true"
+                        nullable="false"
+                        primaryKeyName="pk_corporate_customers"
+                />
+            </column>
+            <column name="card_issued" type="date">
+            </column>
+            <column name="extract_from_register" type="varchar(255)">
+            </column>
+            <column name="id_card" type="varchar(255)">
+            </column>
+            <column name="place_of_registration" type="varchar(255)">
+            </column>
+            <column name="trustworthiness" type="varchar(255)">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create private_customers table" author="davis">
+        <createTable tableName="private_customers">
+            <column name="id" type="varchar(255)">
+                <constraints
+                        primaryKey="true"
+                        nullable="false"
+                        primaryKeyName="pk_private_customers"
+                />
+            </column>
+            <column name="card_issued" type="date">
+            </column>
+            <column name="id_card" type="varchar(255)">
+            </column>
+            <column name="place_of_registration" type="varchar(255)">
+            </column>
+            <column name="trustworthiness" type="varchar(255)">
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
